@@ -20,7 +20,7 @@ import objetosnegocio.Expediente;
 /**
  * REST Web Service
  *
- * @author JavierMëndez & EnriqueMendoza
+ * @author JavierMëndez 00000181816 & EnriqueMendoza 00000181798
  */
 @Path("expediente")
 public class RecursoExpediente {
@@ -41,8 +41,9 @@ public class RecursoExpediente {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getJson(@PathParam("id")String id) {
-        return Response.status(200).entity(new Expediente("Javier Méndez", "181816", "21/02/99", "Hernesto Valenzuela", "Estudiante", "[Texto]")).build();
+    public Response getExpediente(@PathParam("id")String id) {
+        //Envia una peticion GET al ServerEndpointAnnotated.java para mandar el expediente con determinado ID a la sesión conectada.
+        return Response.status(200).build();
     }
 
     /**
@@ -51,7 +52,7 @@ public class RecursoExpediente {
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putJson(Expediente content) {
+    public Response putExpediente(Expediente content) {
         return Response.status(200).build();
     }
 }
