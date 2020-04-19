@@ -5,7 +5,7 @@
  */
 package main;
 
-import control.Control;
+import conexion.control.Control;
 
 /**
  *
