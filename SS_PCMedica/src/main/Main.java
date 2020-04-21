@@ -17,6 +17,6 @@ public class Main {
         
         Control control = new Control();
         
-        control.getExpediente("0");
+        control.getExpediente("002");
     }
 }
