@@ -17,7 +17,7 @@ import conexion.websockets.ClientEndpointAnnotated;
  */
 public class Control {
 
-    private final String URI = "ws://localhost:8080/SS_BDLocal/consultaExpediente";
+    private final String URI = "ws://localhost:8080/SS_BDLocal/websockets/expediente";
     private RecursoExpediente_Client rec;
     private ClientEndpointAnnotated cea;
 

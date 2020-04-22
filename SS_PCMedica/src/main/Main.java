@@ -18,5 +18,13 @@ public class Main {
         Control control = new Control();
         
         control.getExpediente("002");
+        
+        while(true) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }
