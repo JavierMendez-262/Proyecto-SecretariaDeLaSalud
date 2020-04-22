@@ -7,6 +7,7 @@ package conexion.control;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import conexion.puertosRabbit.MainConsumer;
 import conexion.puertosRabbit.MainProducer;
 import conexion.websockets.ServerEndpointAnnotated;
 import objetosnegocio.Expediente;
@@ -26,20 +27,24 @@ public class Control {
         this.sea = sea;
     }
 
-    public void buscaExpediente(String sessionId, String expedienteId) {
-        Expediente expediente = listaExpedientes.getExpedienteId(expedienteId);
+    public void buscaExpediente(String expedienteId, String sessionId) {
+        Expediente expediente = listaExpedientes.getExpediente(expedienteId);
         if (expediente == null) {
-            MainProducer producer = new MainProducer(this);
-            producer.produceMessage(sessionId, expedienteId);
+            MainProducer producer = new MainProducer();
+            MainConsumer consumer = new MainConsumer(this);
+            
+            consumer.consumeMessage();
+            producer.produceMessage(expedienteId, sessionId);
         } else {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String expedienteGson = gson.toJson(expediente);
             
-            enviaExpediente(sessionId, expedienteGson);
+            enviaExpediente(expedienteGson, sessionId);
         }
     }
     
-    public void enviaExpediente(String sessionId, String expedienteGson) {
+    public void enviaExpediente(String expedienteGson, String sessionId) {
+        System.out.println("Enviando...");
         sea.sendMessage(expedienteGson, sessionId);
     }
 
