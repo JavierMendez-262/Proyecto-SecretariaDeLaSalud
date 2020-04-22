@@ -21,7 +21,7 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author JavierMéndez 00000181816 & EnriqueMendoza 00000181798
  */
-@ServerEndpoint("/consultaExpediente")
+@ServerEndpoint("/websockets/expediente")
 public class ServerEndpointAnnotated {
 
     private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
@@ -35,14 +35,13 @@ public class ServerEndpointAnnotated {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println(message);
-
-        String expedienteId = message;
-        control.buscaExpediente(session.getId(), expedienteId);
-        //Recibe ID, y envia a la session un JSON
+        System.out.println("session id: " + session.getId());
+        control.buscaExpediente(message, session.getId());
+        //Recibe ID, y envia a la session conectada un JSON
     }
 
     public void sendMessage(String message, String sessionId) {
+        System.out.println("session id: " + sessionId);
         for (Session client : clients) {
             if (client.getId().equals(sessionId)) {
                 try {
