@@ -10,11 +10,9 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import objetosnegocio.Expediente;
 import persistencialistas.ListaExpedientes;
 
 /**
@@ -23,7 +21,7 @@ import persistencialistas.ListaExpedientes;
  */
 public class Consumer {
 
-    private final static String QUEUE_NAME = "bdremota";
+    private final static String QUEUE_NAME = "REMOTE_DATABASE";
     
     public static void main(String[] args) {
         try {
@@ -37,18 +35,22 @@ public class Consumer {
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
                 System.out.println("[x] Received Json: \n" + message);
-
-                //Consume los expedientes solicitados a la BD Remota
+                
                 Producer producer = new Producer(); // Producer que procesará el mensaje
                 ListaExpedientes exp = new ListaExpedientes(); 
-                if (exp.getExpedienteId(message) != null) {
-                    producer.produceMessage(exp.getExpedienteId(message));
+                
+                if (exp.getExpediente(message) != null) {
+                    producer.produceMessage(exp.getExpediente(message));
                 }
             };
+            
             channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
             });
-        } catch (IOException | TimeoutException ex) {
+            
+        } catch (IOException ex) {
             Logger.getLogger(Consumer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (TimeoutException ex) {
+            Logger.getLogger(Consumer.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 }

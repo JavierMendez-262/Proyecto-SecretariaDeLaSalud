@@ -26,7 +26,7 @@ public class ListaExpedientes {
         return listaExpedientes;
     }
 
-    public Expediente getExpedienteId(String id) {
+    public Expediente getExpediente(String id) {
         for (Expediente expediente : listaExpedientes) {
             if (expediente.id.equals(id)) {
                 return expediente;

@@ -22,8 +22,11 @@ import objetosnegocio.Expediente;
  */
 public class Producer {
 
-    private final String QUEUE_NAME = "bdlocal";
+    private final String QUEUE_NAME = "LOCAL_DATABASE";
 
+    public Producer() {
+    }
+    
     public void produceMessage(Expediente expediente) {
         try {
             ConnectionFactory factory = new ConnectionFactory();
@@ -33,25 +36,18 @@ public class Producer {
 
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
-            // Generando mensaje utilizando Json.
-            String toSend = "";
-            String content = "";
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            content = gson.toJson(expediente);
-            int i = 0; 
-            while (true) {
-                i++; // Al probar checar que se envié solamente una vez y no constantemente
-                toSend = "New message " + i + " " + content;
-                channel.basicPublish("", QUEUE_NAME, null, toSend.getBytes());
-                System.out.println("Message from [Producer] sent: " + '\n' + toSend);
-                Thread.sleep(1000);
-            }
-            //String mensajeAEnviar = "";
-            //Envia una solicitud de un expediente a la BD Remota en caso de no encontrarse en la BD Local
-            //channel.basicPublish("", QUEUE_NAME, null, mensajeAEnviar.getBytes());
-            //System.out.println("[*] Sent Json: \n" + mensajeAEnviar);
-        } catch (IOException | TimeoutException | InterruptedException ex) {
+            String content = gson.toJson(expediente);
+            
+            // Al probar checar que se envié solamente una vez y no constantemente
+            
+            channel.basicPublish("", QUEUE_NAME, null, content.getBytes());
+            System.out.println("[*] Sent Json: " + '\n' + content);
+
+        } catch (IOException ex) {
             Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (TimeoutException ex) {
+            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 }
