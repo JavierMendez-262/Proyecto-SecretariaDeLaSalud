@@ -45,7 +45,7 @@ public class MainConsumer {
                 //Consume los expedientes solicitados a la BD Remota
                 //La sesionId del destinatario viene en la variable message consumida
                 
-                control.enviaExpediente(message, "2");
+                control.enviaExpediente(message, "0");
                                 
             }; 
             
