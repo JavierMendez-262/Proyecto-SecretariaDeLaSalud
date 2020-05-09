@@ -30,11 +30,8 @@ public class Control {
     public void buscaExpediente(String expedienteId, String sessionId) {
         Expediente expediente = listaExpedientes.getExpediente(expedienteId);
         if (expediente == null) {
-            MainProducer producer = new MainProducer();
-            MainConsumer consumer = new MainConsumer(this);
             
-            consumer.consumeMessage();
-            producer.produceMessage(expedienteId, sessionId);
+            // Solicitar recursos através de API Rest a la BDRemota
         } else {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String expedienteGson = gson.toJson(expediente);
