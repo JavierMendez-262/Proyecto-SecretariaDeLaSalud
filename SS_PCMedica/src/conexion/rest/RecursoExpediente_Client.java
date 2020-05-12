@@ -9,6 +9,9 @@ import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import org.glassfish.grizzly.ssl.SSLContextConfigurator;
+import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
+import org.glassfish.tyrus.client.ClientProperties;
 
 /**
  *
@@ -18,10 +21,20 @@ public class RecursoExpediente_Client {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/SS_BDLocal/webresources";
+    private static final String BASE_URI = "https://localhost:8443/SS_BDRemota/webresources";
 
     public RecursoExpediente_Client() {
-        client = javax.ws.rs.client.ClientBuilder.newClient();
+        System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "src/conexion/keystore.jks");
+        System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "src/conexion/keystore.jks");
+        System.getProperties().put(SSLContextConfigurator.KEY_STORE_PASSWORD, "secretaria");
+        System.getProperties().put(SSLContextConfigurator.TRUST_STORE_PASSWORD, "secretaria");
+
+        final SSLContextConfigurator defaultConfig = new SSLContextConfigurator();
+        defaultConfig.retrieve(System.getProperties());
+
+        SSLEngineConfigurator sslEngineConfigurator = new SSLEngineConfigurator(defaultConfig, true, false, false);
+        
+        client = javax.ws.rs.client.ClientBuilder.newClient().property(ClientProperties.SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
         webTarget = client.target(BASE_URI).path("expediente");
     }
 
