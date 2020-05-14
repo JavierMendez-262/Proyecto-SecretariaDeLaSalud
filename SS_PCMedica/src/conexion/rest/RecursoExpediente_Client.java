@@ -21,11 +21,11 @@ public class RecursoExpediente_Client {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "https://localhost:8443/SS_BDRemota/webresources";
+    private static final String BASE_URI = "https://localhost:8443/SS_BDLocal/webresources";
 
     public RecursoExpediente_Client() {
-        System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "src/conexion/keystore.jks");
-        System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "src/conexion/keystore.jks");
+        System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "lib/certs/keystore.jks");
+        System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "lib/certs/keystore.jks");
         System.getProperties().put(SSLContextConfigurator.KEY_STORE_PASSWORD, "secretaria");
         System.getProperties().put(SSLContextConfigurator.TRUST_STORE_PASSWORD, "secretaria");
 

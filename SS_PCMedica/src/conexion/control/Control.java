@@ -28,8 +28,8 @@ public class Control {
         try {
             ClientManager client = ClientManager.createClient();
             
-            System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "src/conexion/keystore.jks");
-            System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "src/conexion/keystore.jks");
+            System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "lib/certs/keystore.jks");
+            System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "lib/certs/keystore.jks");
             System.getProperties().put(SSLContextConfigurator.KEY_STORE_PASSWORD, "secretaria");
             System.getProperties().put(SSLContextConfigurator.TRUST_STORE_PASSWORD, "secretaria");
             

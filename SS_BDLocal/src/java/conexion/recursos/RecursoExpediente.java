@@ -16,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import objetosnegocio.Expediente;
+import persistencia.ListaExpedientes;
 
 /**
  * REST Web Service
@@ -24,6 +25,8 @@ import objetosnegocio.Expediente;
  */
 @Path("expediente")
 public class RecursoExpediente {
+    
+    private ListaExpedientes listaExpedientes = new ListaExpedientes();
 
     @Context
     private UriInfo context;
@@ -43,7 +46,8 @@ public class RecursoExpediente {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getExpediente(@PathParam("id")String id) {
         //Envia una peticion GET al ServerEndpointAnnotated.java para mandar el expediente con determinado ID a la sesión conectada.
-        return Response.status(200).build();
+        Expediente expediente = listaExpedientes.getExpediente(id);
+        return Response.status(200).entity(expediente).build();
     }
 
     /**

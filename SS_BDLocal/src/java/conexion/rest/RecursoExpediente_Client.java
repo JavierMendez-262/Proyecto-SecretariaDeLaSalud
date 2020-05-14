@@ -24,8 +24,8 @@ public class RecursoExpediente_Client {
     private static final String BASE_URI = "https://localhost:8443/SS_BDRemota/webresources";
 
     public RecursoExpediente_Client() {
-        System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "src/java/conexion/keystore.jks");
-        System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "src/java/conexion/keystore.jks");
+        System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "lib/certs/keystore.jks");
+        System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "lib/certs/keystore.jks");
         System.getProperties().put(SSLContextConfigurator.KEY_STORE_PASSWORD, "secretaria");
         System.getProperties().put(SSLContextConfigurator.TRUST_STORE_PASSWORD, "secretaria");
 
@@ -33,8 +33,8 @@ public class RecursoExpediente_Client {
         defaultConfig.retrieve(System.getProperties());
 
         SSLEngineConfigurator sslEngineConfigurator = new SSLEngineConfigurator(defaultConfig, true, false, false);
+        
         client = javax.ws.rs.client.ClientBuilder.newClient().property(ClientProperties.SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
-
         webTarget = client.target(BASE_URI).path("expediente");
     }
 
