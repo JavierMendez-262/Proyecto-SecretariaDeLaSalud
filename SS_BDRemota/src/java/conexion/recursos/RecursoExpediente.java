@@ -16,7 +16,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import objetosnegocio.Expediente;
+import negocio.Expediente;
 import persistencia.ListaExpedientes;
 
 /**

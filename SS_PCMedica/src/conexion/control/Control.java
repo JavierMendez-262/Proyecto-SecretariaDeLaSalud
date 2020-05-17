@@ -8,7 +8,7 @@ package conexion.control;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.net.URI;
-import objetosnegocio.Expediente;
+import negocio.Expediente;
 import org.glassfish.tyrus.client.ClientManager;
 import conexion.rest.RecursoExpediente_Client;
 import conexion.websockets.ClientEndpointAnnotated;
@@ -51,9 +51,9 @@ public class Control {
     public Expediente getExpediente(String id) throws IOException, URISyntaxException, DeploymentException {
         try {
             Expediente expediente = rec.getExpediente(id);// Se solicita el expediente al servidor a través de RESTful.
-            
+
             System.out.println(gson.toJson(expediente));//En caso de que el servidor local lo posea se imprime no más para ver.
-            
+
         } catch (NotFoundException NFE) {// Si no lo encuentra, solicitalo a través de WebSockets al servidor.
             prepareClient().connectToServer(cea, new URI(URI));
             cea.sendMessage(id);

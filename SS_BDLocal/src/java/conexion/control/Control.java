@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 import conexion.rest.RecursoExpediente_Client;
 import conexion.websockets.ServerEndpointAnnotated;
 import javax.ws.rs.NotFoundException;
-import objetosnegocio.Expediente;
+import negocio.Expediente;
 import persistencia.ListaExpedientes;
 
 /**
@@ -72,5 +72,4 @@ public class Control {
         System.out.println("Enviando...");
         sea.sendMessage(expedienteGson, sessionId);
     }
-
 }

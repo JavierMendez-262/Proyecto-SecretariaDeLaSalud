@@ -17,9 +17,9 @@ import javax.websocket.DeploymentException;
 public class Main {
 
     public static void main(String[] args) {
-        
+
         Control control = new Control();
-        
+
         try {
             control.getExpediente("003");
         } catch (IOException ex) {
@@ -29,8 +29,7 @@ public class Main {
         } catch (DeploymentException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        while(true) {
+        while (true) {
             try {
                 Thread.sleep(7 * 1000);
                 break;

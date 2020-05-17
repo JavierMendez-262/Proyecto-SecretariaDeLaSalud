@@ -6,7 +6,7 @@
 package persistencia;
 
 import java.util.ArrayList;
-import objetosnegocio.Expediente;
+import negocio.Expediente;
 
 /**
  * Clase que simula una persistencia con la lista de expedientes.
@@ -22,13 +22,11 @@ public class ListaExpedientes {
      */
     public ListaExpedientes() {
         listaExpedientes = new ArrayList<>();
-        listaExpedientes.add(new Expediente("Dahir Valenzuela", "001", "09/10/2020", "Dr. House", "Basurero", "Coronavairus"));
-        listaExpedientes.add(new Expediente("Felipe Gustavo", "002", "08/08/2019", "Dr. Simi", "Ejecutivo", "Gripa"));
     }
 
     /**
      * Método que obtiene la lista de expedientes.
-     * 
+     *
      * @return Lista de expedientes.
      */
     public ArrayList<Expediente> getListaExpedientes() {
@@ -36,13 +34,15 @@ public class ListaExpedientes {
     }
 
     /**
-     * Método que obtiene un expediente comparando su Id con el Id del parámetro.
+     * Método que obtiene un expediente comparando su Id con el Id del
+     * parámetro.
+     *
      * @param id Id del expediente solicitado.
      * @return Expediente con Id solicitada.
      */
     public Expediente getExpediente(String id) {
         for (Expediente expediente : listaExpedientes) {
-            if (expediente.id.equals(id)) {
+            if (expediente.id == new Integer(id)) {
                 return expediente;
             }
         }
