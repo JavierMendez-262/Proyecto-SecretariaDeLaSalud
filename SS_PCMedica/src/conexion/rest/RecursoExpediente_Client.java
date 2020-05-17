@@ -6,6 +6,7 @@
 package conexion.rest;
 
 import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -51,7 +52,7 @@ public class RecursoExpediente_Client {
      * @throws ClientErrorException cuando se produzca un problema con la
      * solicitud.
      */
-    public Expediente getExpediente(String id) throws ClientErrorException {
+    public Expediente getExpediente(String id) throws ClientErrorException, NotFoundException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(Expediente.class);

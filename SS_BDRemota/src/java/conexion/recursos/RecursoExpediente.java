@@ -10,13 +10,14 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import objetosnegocio.Expediente;
-import persistencialistas.ListaExpedientes;
+import persistencia.ListaExpedientes;
 
 /**
  * REST Web Service
@@ -27,7 +28,7 @@ import persistencialistas.ListaExpedientes;
 public class RecursoExpediente {
 
     private ListaExpedientes listaExpedientes = new ListaExpedientes();
-    
+
     @Context
     private UriInfo context;
 
@@ -39,18 +40,23 @@ public class RecursoExpediente {
 
     /**
      * Retrieves representation of an instance of recursos.RecursoExpediente
+     *
      * @return an instance of objetosnegocio.Expediente
      */
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getExpediente(@PathParam("id")String id) {
+    public Response getExpediente(@PathParam("id") String id) throws NotFoundException {
         Expediente expediente = listaExpedientes.getExpediente(id);
+        if (expediente == null) {
+            return Response.status(404).build();
+        }
         return Response.status(200).entity(expediente).build();
     }
 
     /**
      * PUT method for updating or creating an instance of RecursoExpediente
+     *
      * @param content representation for the resource
      */
     @PUT

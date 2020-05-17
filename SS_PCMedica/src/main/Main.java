@@ -4,6 +4,11 @@
 package main;
 
 import conexion.control.Control;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.websocket.DeploymentException;
 
 /**
  *
@@ -15,11 +20,20 @@ public class Main {
         
         Control control = new Control();
         
-        control.getExpediente("002");
+        try {
+            control.getExpediente("003");
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DeploymentException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         while(true) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(7 * 1000);
+                break;
             } catch (InterruptedException ex) {
                 System.out.println(ex.getMessage());
             }

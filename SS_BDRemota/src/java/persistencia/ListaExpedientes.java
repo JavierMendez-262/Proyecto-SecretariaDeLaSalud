@@ -3,7 +3,7 @@
  * 
  * Creado en Abril 18, 2020. 20:09
  */
-package persistencialistas;
+package persistencia;
 
 import java.util.ArrayList;
 import objetosnegocio.Expediente;

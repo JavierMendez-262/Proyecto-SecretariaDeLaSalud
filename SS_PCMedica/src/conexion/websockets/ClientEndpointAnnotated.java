@@ -5,6 +5,7 @@
  */
 package conexion.websockets;
 
+import conexion.control.Control;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.websocket.ClientEndpoint;
@@ -22,9 +23,13 @@ import javax.websocket.Session;
 @ClientEndpoint
 public class ClientEndpointAnnotated {
 
+    private Control control;
     private Session serverSession;
-    private ArrayList<String> receivedMessages = new ArrayList<>();
 
+    public ClientEndpointAnnotated(Control control) {
+        this.control = control;
+    }
+    
     /**
      * Método que se ejecuta al abrir una conexión con el servidor.
      *
@@ -42,8 +47,7 @@ public class ClientEndpointAnnotated {
      */
     @OnMessage
     public void onMessage(String message) {
-        //receivedMessages.add(message);
-        System.out.println(message);
+        control.receivedExpedienteWS(message);
     }
 
     /**

@@ -16,13 +16,20 @@ import objetosnegocio.Expediente;
 public class ListaExpedientes {
 
     private ArrayList<Expediente> listaExpedientes;
+    private static ListaExpedientes instance;
 
     /**
      * Constructor por omisión.
      */
-    public ListaExpedientes() {
-//        listaExpedientes = new ArrayList<>();
-//        listaExpedientes.add(new Expediente("Dahir Valenzuela", "001", "09/10/2020", "Dr. House", "Basurero", "Coronavairus"));
+    private ListaExpedientes() {
+        listaExpedientes = new ArrayList<>();
+    }
+    
+    public static ListaExpedientes getInstance() {
+        if (instance == null) {
+            instance = new ListaExpedientes();
+        }
+        return instance;
     }
 
     /**

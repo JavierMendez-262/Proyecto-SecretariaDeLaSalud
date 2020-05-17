@@ -50,7 +50,6 @@ public class ServerEndpointAnnotated {
     public void onMessage(String message, Session session) {
         System.out.println("session id: " + session.getId());
         control.buscaExpediente(message, session.getId());
-        //Recibe ID, y envia a la session conectada un JSON
     }
 
     /**
@@ -64,7 +63,7 @@ public class ServerEndpointAnnotated {
         for (Session client : clients) {
             if (client.getId().equals(sessionId)) {
                 try {
-                    client.getBasicRemote().sendText(message);
+                    client.getBasicRemote().sendText(message != null ? message : "null");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -74,9 +73,9 @@ public class ServerEndpointAnnotated {
     }
 
     /**
-     * Método que se ejecuta cuando una conexión es cerrada.
-     * Remueve la sesión del cliente desconectado de la lista de sesiones.
-     * 
+     * Método que se ejecuta cuando una conexión es cerrada. Remueve la sesión
+     * del cliente desconectado de la lista de sesiones.
+     *
      * @param session Sesión del cliente que cerró la conexión.
      */
     @OnClose
