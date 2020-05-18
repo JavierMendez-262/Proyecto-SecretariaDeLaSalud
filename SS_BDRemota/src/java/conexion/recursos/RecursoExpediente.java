@@ -5,19 +5,21 @@
  */
 package conexion.recursos;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import negocio.Expediente;
-import persistencia.ListaExpedientes;
+import persistencia.PersistenciaListas;
 
 /**
  * REST Web Service
@@ -26,8 +28,6 @@ import persistencia.ListaExpedientes;
  */
 @Path("expediente")
 public class RecursoExpediente {
-
-    private ListaExpedientes listaExpedientes = new ListaExpedientes();
 
     @Context
     private UriInfo context;
@@ -46,8 +46,16 @@ public class RecursoExpediente {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getExpediente(@PathParam("id") String id) throws NotFoundException {
-        Expediente expediente = listaExpedientes.getExpediente(id);
+    public Response getExpediente(@PathParam("id") int id) {
+        Expediente expediente = null;
+        try {
+            PersistenciaListas persistenciaListas = new PersistenciaListas();
+            expediente = persistenciaListas.obtenExpediente(id);
+        } catch (SQLException ex) {
+            return Response.status(500).build();
+        } catch (ClassNotFoundException ex) {
+            return Response.status(500).build();
+        }
         if (expediente == null) {
             return Response.status(404).build();
         }

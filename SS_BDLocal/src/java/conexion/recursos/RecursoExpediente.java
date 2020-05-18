@@ -5,6 +5,7 @@
  */
 package conexion.recursos;
 
+import java.sql.SQLException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import negocio.Expediente;
 import persistencia.ListaExpedientes;
+import persistencia.PersistenciaListas;
 
 /**
  * REST Web Service
@@ -26,8 +28,6 @@ import persistencia.ListaExpedientes;
  */
 @Path("expediente")
 public class RecursoExpediente {
-
-    private ListaExpedientes listaExpedientes = ListaExpedientes.getInstance();
 
     @Context
     private UriInfo context;
@@ -46,9 +46,16 @@ public class RecursoExpediente {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getExpediente(@PathParam("id") String id) throws NotFoundException {
-        //Envia una peticion GET al ServerEndpointAnnotated.java para mandar el expediente con determinado ID a la sesión conectada.
-        Expediente expediente = listaExpedientes.getExpediente(id);
+    public Response getExpediente(@PathParam("id") int id) {
+        Expediente expediente = null;
+        try {
+            PersistenciaListas persistenciaListas = new PersistenciaListas();
+            expediente = persistenciaListas.obtenExpediente(id);
+        } catch (SQLException ex) {
+            return Response.status(500).build();
+        } catch (ClassNotFoundException ex) {
+            return Response.status(500).build();
+        }
         if (expediente == null) {
             return Response.status(404).build();
         }

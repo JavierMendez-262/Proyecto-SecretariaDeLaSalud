@@ -9,9 +9,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import conexion.rest.RecursoExpediente_Client;
 import conexion.websockets.ServerEndpointAnnotated;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.NotFoundException;
 import negocio.Expediente;
-import persistencia.ListaExpedientes;
+import persistencia.PersistenciaListas;
 
 /**
  * Clase que maneja las conexiones.
@@ -20,7 +23,7 @@ import persistencia.ListaExpedientes;
  */
 public class Control {
 
-    private ListaExpedientes listaExpedientes;
+    private PersistenciaListas persistenciaListas;
     private ServerEndpointAnnotated sea;
     private RecursoExpediente_Client rec;
     private Gson gson;
@@ -33,7 +36,13 @@ public class Control {
      */
     public Control(ServerEndpointAnnotated sea) {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
-        this.listaExpedientes = ListaExpedientes.getInstance();
+        try {
+            this.persistenciaListas = new PersistenciaListas();
+        } catch (SQLException ex) {
+            Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.sea = sea;
         this.rec = new RecursoExpediente_Client();
     }
@@ -45,7 +54,12 @@ public class Control {
      * @param sessionId Id de la sesión que realizó la solicitud.
      */
     public void buscaExpediente(String expedienteId, String sessionId) {
-        Expediente expediente = listaExpedientes.getExpediente(expedienteId);// Se obtiene de la lista de expedientes el expediente con el Id solicitado.
+        Expediente expediente = null;
+        try {
+            expediente = persistenciaListas.obtenExpediente(new Integer(expedienteId)); // Se obtiene de la lista de expedientes el expediente con el Id solicitado.
+        } catch (SQLException ex) {
+            Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (expediente == null) {// Si no lo encuentra, se le solicita al servidor remoto.
             System.out.println("No se encontró... Solicitando al server remoto...");
 
@@ -56,7 +70,11 @@ public class Control {
                 return;// Y aquí acaba el método.
             }
             
-            listaExpedientes.addExpediente(expediente);// Si fue encontrado se añade a la lista de expedientes del servidor local.
+            try {
+                persistenciaListas.agregaExpediente(expediente);// Si fue encontrado se añade a la lista de expedientes del servidor local.
+            } catch (SQLException ex) {
+                Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         String expedienteGson = gson.toJson(expediente);
         enviaExpediente(expedienteGson, sessionId);

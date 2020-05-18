@@ -20,7 +20,18 @@ public class ConexionSQL {
 
     private static ConexionSQL instance;
     private Connection con;
-    
+
+    /**
+     * Constructor que inicializa los atributos de la clase al valor de sus
+     * parámetros.
+     *
+     * @param serverName Nombre del servidor de la base de datos.
+     * @param databaseName Nombre de la base de datos a utilizar.
+     * @param user Usuario con permisos para administrar la base de datos.
+     * @param password Contrasena del usuario.
+     * @throws SQLException Si se produce un error en la base de datos.
+     * @throws ClassNotFoundException Si se produce un error con el jdbc.
+     */
     private ConexionSQL(String serverName, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String connectionURL = "jdbc:sqlserver://" + serverName + ":1433;"
@@ -30,21 +41,45 @@ public class ConexionSQL {
         this.con = DriverManager.getConnection(connectionURL);
     }
 
+    /**
+     * Crea en caso de no existir una instancia de esta clase.
+     *
+     * @param serverName Nombre del servidor de la base de datos.
+     * @param databaseName Nombre de la base de datos a utilizar.
+     * @param user Usuario con permisos para administrar la base de datos.
+     * @param password Contrasena del usuario.
+     * @return Instancia de la clase.
+     * @throws SQLException Si se produce un error en la base de datos.
+     * @throws ClassNotFoundException Si se produce un error con el jdbc.
+     */
     public static ConexionSQL getInstance(String serverName, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
         if (instance == null) {
             instance = new ConexionSQL(serverName, databaseName, user, password);
         }
         return instance;
     }
-    
+
+    /**
+     * Ejecuta el query que recibe en su parametro en la base de datos.
+     *
+     * @param query Consulta a ejecutar en la base de datos.
+     * @return ResultSet con el conjunto de resultados
+     * @throws SQLException Si hubo un problema con la consulta.
+     */
     public ResultSet executeQuery(String query) throws SQLException {
         Statement st = con.createStatement();
         return st.executeQuery(query);
     }
-    
-    public void executeStatement(String query) throws SQLException {
+
+    /**
+     * Ejecuta el statemente que recibe en su parametro en la base de datos.
+     * 
+     * @param statement Declaracion a ejecutar en la base de datos.
+     * @throws SQLException Si hubo un problema con la consulta.
+     */
+    public void executeStatement(String statement) throws SQLException {
         Statement st = con.createStatement();
-        st.execute(query);
+        st.execute(statement);
     }
 
 }
