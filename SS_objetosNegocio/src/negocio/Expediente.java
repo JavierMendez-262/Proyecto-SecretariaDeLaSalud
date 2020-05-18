@@ -12,11 +12,11 @@ package negocio;
  */
 public class Expediente {
 
-    public int id;
-    public String nombre;
-    public char sexo;
-    public int edad;
-    public String domicilio;
+    private int id;
+    private String nombre;
+    private char sexo;
+    private int edad;
+    private String domicilio;
 
     /**
      * Constructor por omisión.
