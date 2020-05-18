@@ -37,8 +37,8 @@ public class Control {
     public Control(ServerEndpointAnnotated sea) {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         try {
-            this.persistenciaListas = new PersistenciaListas();
-        } catch (SQLException ex) {
+            this.persistenciaListas = PersistenciaListas.getInstance();
+        } catch (SQLException ex) {//Mandar error cuando no se encuentre un expediente en la BD Remota
             Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);

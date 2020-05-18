@@ -22,9 +22,17 @@ public class PersistenciaListas implements IPersistenciaListas{
     private final String password = "root";
 
     private ListaExpedientes listaExpedientes;
+    private static PersistenciaListas instance;
 
-    public PersistenciaListas() throws SQLException, ClassNotFoundException {
+    private PersistenciaListas() throws SQLException, ClassNotFoundException {
         listaExpedientes = new ListaExpedientes(serverName, databaseName, user, password);
+    }
+    
+    public static PersistenciaListas getInstance() throws SQLException, ClassNotFoundException {
+        if (instance == null) {
+            instance = new PersistenciaListas();
+        }
+        return instance;
     }
 
     @Override

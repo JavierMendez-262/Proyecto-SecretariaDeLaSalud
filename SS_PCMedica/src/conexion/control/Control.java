@@ -15,6 +15,7 @@ import conexion.websockets.ClientEndpointAnnotated;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import javax.websocket.DeploymentException;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
@@ -54,11 +55,13 @@ public class Control {
 
             System.out.println(gson.toJson(expediente));//En caso de que el servidor local lo posea se imprime no más para ver.
 
-        } catch (NotFoundException NFE) {// Si no lo encuentra, solicitalo a través de WebSockets al servidor.
+        } catch (NotFoundException ex) {// Si no lo encuentra, solicitalo a través de WebSockets al servidor.
             prepareClient().connectToServer(cea, new URI(URI));
             cea.sendMessage(id);
 
             System.out.println("Espere un momento... ");// Se espera a que la solicitud sea procesada.
+        } catch (InternalServerErrorException ex) {
+            
         }
 
         return null;

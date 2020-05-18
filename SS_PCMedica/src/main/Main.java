@@ -21,7 +21,7 @@ public class Main {
         Control control = new Control();
 
         try {
-            control.getExpediente("1");
+            control.getExpediente("4");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (URISyntaxException ex) {

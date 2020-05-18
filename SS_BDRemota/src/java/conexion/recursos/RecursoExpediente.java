@@ -6,8 +6,6 @@
 package conexion.recursos;
 
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -46,11 +44,11 @@ public class RecursoExpediente {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getExpediente(@PathParam("id") int id) {
+    public Response getExpediente(@PathParam("id") String id) {
         Expediente expediente = null;
         try {
             PersistenciaListas persistenciaListas = new PersistenciaListas();
-            expediente = persistenciaListas.obtenExpediente(id);
+            expediente = persistenciaListas.obtenExpediente(new Integer(id));
         } catch (SQLException ex) {
             return Response.status(500).build();
         } catch (ClassNotFoundException ex) {

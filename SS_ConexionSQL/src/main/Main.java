@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class Main {
 
     private static final String serverName = "DESKTOP-41MLEHM\\SQLEXPRESS";
-    private static final String databaseName = "BDRemota";
+    private static final String databaseName = "BDLocal";
     private static final String user = "DBOwner";
     private static final String password = "root";
 
@@ -28,13 +28,16 @@ public class Main {
     public static void main(String[] args) {
         ConexionSQL conexion;
         try {
-            conexion = ConexionSQL.getInstance(serverName, databaseName, user, password);
+            conexion = new ConexionSQL(serverName, databaseName, user, password);
             ResultSet rs = conexion.executeQuery("SELECT * FROM Expediente WHERE ID = 1");
-            System.out.println(rs.getInt(1));
-            System.out.println(rs.getString(2));
-            System.out.println(rs.getString(3).charAt(0));
-            System.out.println(rs.getInt(4));
-            System.out.println(rs.getString(5));
+            rs.next();
+            System.out.println(rs.getInt(1) + " "
+                    + rs.getString(2)+ " "
+                    + rs.getString(3)+ " "
+                    + rs.getInt(4)+ " "
+                    + rs.getString(5));
+            
+            
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

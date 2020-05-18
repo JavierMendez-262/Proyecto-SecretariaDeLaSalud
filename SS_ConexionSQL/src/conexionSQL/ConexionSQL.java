@@ -32,31 +32,13 @@ public class ConexionSQL {
      * @throws SQLException Si se produce un error en la base de datos.
      * @throws ClassNotFoundException Si se produce un error con el jdbc.
      */
-    private ConexionSQL(String serverName, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
+    public ConexionSQL(String serverName, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String connectionURL = "jdbc:sqlserver://" + serverName + ":1433;"
                 + "databaseName=" + databaseName + ";"
                 + "user=" + user + ";"
                 + "password=" + password + ";";
         this.con = DriverManager.getConnection(connectionURL);
-    }
-
-    /**
-     * Crea en caso de no existir una instancia de esta clase.
-     *
-     * @param serverName Nombre del servidor de la base de datos.
-     * @param databaseName Nombre de la base de datos a utilizar.
-     * @param user Usuario con permisos para administrar la base de datos.
-     * @param password Contrasena del usuario.
-     * @return Instancia de la clase.
-     * @throws SQLException Si se produce un error en la base de datos.
-     * @throws ClassNotFoundException Si se produce un error con el jdbc.
-     */
-    public static ConexionSQL getInstance(String serverName, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
-        if (instance == null) {
-            instance = new ConexionSQL(serverName, databaseName, user, password);
-        }
-        return instance;
     }
 
     /**

@@ -6,19 +6,19 @@
 package conexion.recursos;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import negocio.Expediente;
-import persistencia.ListaExpedientes;
 import persistencia.PersistenciaListas;
 
 /**
@@ -46,15 +46,16 @@ public class RecursoExpediente {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getExpediente(@PathParam("id") int id) {
+    public Response getExpediente(@PathParam("id") String id) {
         Expediente expediente = null;
         try {
-            PersistenciaListas persistenciaListas = new PersistenciaListas();
-            expediente = persistenciaListas.obtenExpediente(id);
+            PersistenciaListas persistenciaListas = PersistenciaListas.getInstance();
+            expediente = persistenciaListas.obtenExpediente(new Integer(id));
+            System.out.println(expediente.getNombre());
         } catch (SQLException ex) {
-            return Response.status(500).build();
+            Logger.getLogger(RecursoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            return Response.status(500).build();
+            Logger.getLogger(RecursoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (expediente == null) {
             return Response.status(404).build();
@@ -69,7 +70,8 @@ public class RecursoExpediente {
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putExpediente(Expediente content) {
+    public Response putExpediente(Expediente content
+    ) {
         return Response.status(200).build();
     }
 }
