@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.NotFoundException;
 import negocio.Expediente;
-import persistencia.PersistenciaListas;
+import dao.PersistenciaListas;
 
 /**
  * Clase que maneja las conexiones.

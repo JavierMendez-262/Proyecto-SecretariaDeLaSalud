@@ -3,7 +3,7 @@
  *
  * Creado en Mayo 17, 2020. 18:04.
  */
-package persistencia;
+package dao;
 
 import conexionSQL.ConexionSQL;
 import interfaces.IListaExpedientes;
@@ -21,10 +21,10 @@ public class ListaExpedientes implements IListaExpedientes {
 
     private ConexionSQL conexion;
     private ResultSet rs;
-    private final String table = "Expediente";
+    private final String tableName = "Expediente";
 
-    public ListaExpedientes(String serverName, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
-        conexion = new ConexionSQL(serverName, databaseName, user, password);
+    public ListaExpedientes(ConexionSQL conexion) throws SQLException, ClassNotFoundException {
+        this.conexion = conexion;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ListaExpedientes implements IListaExpedientes {
         ArrayList<Expediente> expedientes = new ArrayList<>();
         Expediente expediente = new Expediente();
 
-        rs = conexion.executeQuery("SELECT * FROM " + table);
+        rs = conexion.executeQuery("SELECT * FROM " + tableName);
         while (rs.next()) {
             expediente.setId(rs.getInt(1));
             expediente.setNombre(rs.getString(2));
@@ -49,7 +49,7 @@ public class ListaExpedientes implements IListaExpedientes {
     public Expediente getExpediente(int id) throws SQLException {
         Expediente expediente = new Expediente();
 
-        rs = conexion.executeQuery("SELECT * FROM " + table + " WHERE ID = " + Integer.toString(id));
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id);
         rs.next();
         expediente.setId(rs.getInt(1));
         expediente.setNombre(rs.getString(2));
@@ -62,13 +62,24 @@ public class ListaExpedientes implements IListaExpedientes {
 
     @Override
     public void addExpediente(Expediente expediente) throws SQLException {
-        conexion.executeStatement("INSERT INTO " + table + " "
+        conexion.executeStatement("INSERT INTO " + tableName + " "
                 + "VALUES ("
                 + "'" + expediente.getId() + "', "
                 + "'" + expediente.getNombre() + "', "
                 + "'" + expediente.getSexo() + "', "
                 + "'" + expediente.getEdad() + "', "
                 + "'" + expediente.getDomicilio() + "');");
+    }
+
+    @Override
+    public void updateExpediente(Expediente expediente) throws SQLException {
+        conexion.executeStatement("UPDATE " + tableName + " "
+                + "SET "
+                + "Nombre = '" + expediente.getNombre()+ "' "
+                + "Sexo = '" + expediente.getSexo()+ "' "
+                + "Edad = " + expediente.getEdad()+ " "
+                + "Domicilio = '" + expediente.getDomicilio()+ "' "
+                + "WHERE ID = " + expediente.getId());
     }
 
 }

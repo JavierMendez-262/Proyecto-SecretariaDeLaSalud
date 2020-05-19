@@ -6,10 +6,14 @@
 package main;
 
 import conexionSQL.ConexionSQL;
+import dao.ListaAccesoExpedientes;
+import dao.ListaExpedientes;
+import dao.ListaUsuarios;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import negocio.AccesoExpediente;
 
 /**
  *
@@ -29,15 +33,16 @@ public class Main {
         ConexionSQL conexion;
         try {
             conexion = new ConexionSQL(serverName, databaseName, user, password);
-            ResultSet rs = conexion.executeQuery("SELECT * FROM Expediente WHERE ID = 1");
-            rs.next();
-            System.out.println(rs.getInt(1) + " "
-                    + rs.getString(2)+ " "
-                    + rs.getString(3)+ " "
-                    + rs.getInt(4)+ " "
-                    + rs.getString(5));
-            
-            
+            ListaAccesoExpedientes lae = new ListaAccesoExpedientes(conexion);
+            ListaExpedientes le = new ListaExpedientes(conexion);
+            ListaUsuarios lu = new ListaUsuarios(conexion);
+            for (AccesoExpediente ae : lae.getAccesoExpedientesPorIdMedico()) {
+                System.out.println(lu.getUsuario(ae.getIdMedico()).getNickname() + (ae.estaAutorizado() ? "" : " no") + " tiene acceso al expediente de " + le.getExpediente(ae.getIdExpediente()).getNombre());
+            }
+            AccesoExpediente ae = lae.getAccesoExpediente(1, 4);
+            ae.setAutorizacion(!lae.getAccesoExpediente(1, 4).estaAutorizado());
+            lae.updateAccesoExpediente(ae);
+
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

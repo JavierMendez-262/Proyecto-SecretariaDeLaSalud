@@ -18,7 +18,6 @@ import java.sql.Statement;
  */
 public class ConexionSQL {
 
-    private static ConexionSQL instance;
     private Connection con;
 
     /**
@@ -55,7 +54,7 @@ public class ConexionSQL {
 
     /**
      * Ejecuta el statemente que recibe en su parametro en la base de datos.
-     * 
+     *
      * @param statement Declaracion a ejecutar en la base de datos.
      * @throws SQLException Si hubo un problema con la consulta.
      */

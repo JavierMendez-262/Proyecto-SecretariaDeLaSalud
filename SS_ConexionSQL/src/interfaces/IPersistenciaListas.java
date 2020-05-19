@@ -14,7 +14,7 @@ import negocio.Expediente;
  * @author JavierMéndez 00000181816 & EnriqueMendoza 00000181798
  */
 public interface IPersistenciaListas {
-
+    
     /**
      * Obtiene la lista de expedientes.
      *

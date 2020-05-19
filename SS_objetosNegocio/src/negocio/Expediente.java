@@ -17,6 +17,7 @@ public class Expediente {
     private char sexo;
     private int edad;
     private String domicilio;
+    private int idPaciente;
 
     /**
      * Constructor por omisión.
@@ -130,6 +131,26 @@ public class Expediente {
      */
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
+    }
+
+    /**
+     * Método que regresa el Id del usuario paciente al que pertenece este
+     * expediente
+     *
+     * @return Id del paciente
+     */
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    /**
+     * Método que establece el Id del usuario paciente al que pertenece este
+     * expediente
+     *
+     * @param idPaciente Id del paciente
+     */
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
     /**

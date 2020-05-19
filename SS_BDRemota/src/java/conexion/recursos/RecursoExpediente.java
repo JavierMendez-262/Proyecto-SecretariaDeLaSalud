@@ -17,7 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import negocio.Expediente;
-import persistencia.PersistenciaListas;
+import dao.PersistenciaListas;
 
 /**
  * REST Web Service
@@ -47,7 +47,7 @@ public class RecursoExpediente {
     public Response getExpediente(@PathParam("id") String id) {
         Expediente expediente = null;
         try {
-            PersistenciaListas persistenciaListas = new PersistenciaListas();
+            PersistenciaListas persistenciaListas = PersistenciaListas.getInstance();
             expediente = persistenciaListas.obtenExpediente(new Integer(id));
         } catch (SQLException ex) {
             return Response.status(500).build();
