@@ -45,7 +45,7 @@ public class Expediente {
     /**
      * Método que regresa el id del paciente.
      *
-     * @return ID del paciente
+     * @return id
      */
     public int getId() {
         return id;
@@ -63,7 +63,7 @@ public class Expediente {
     /**
      * Método que regresa el nombre del paciente.
      *
-     * @return Nombre del paciente
+     * @return nombre
      */
     public String getNombre() {
         return nombre;
@@ -81,7 +81,7 @@ public class Expediente {
     /**
      * Método que regresa el sexo del paciente.
      *
-     * @return Sexo del paciente
+     * @return sexo
      */
     public char getSexo() {
         return sexo;
@@ -99,7 +99,7 @@ public class Expediente {
     /**
      * Método que regresa la edad del paciente.
      *
-     * @return Edad del paciente
+     * @return edad
      */
     public int getEdad() {
         return edad;
@@ -117,7 +117,7 @@ public class Expediente {
     /**
      * Método que regresa el domicilio del paciente.
      *
-     * @return Domicilio del paciente
+     * @return domicilio
      */
     public String getDomicilio() {
         return domicilio;
