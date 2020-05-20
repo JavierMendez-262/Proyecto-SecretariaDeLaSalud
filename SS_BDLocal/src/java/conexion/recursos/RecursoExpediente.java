@@ -51,7 +51,6 @@ public class RecursoExpediente {
         try {
             PersistenciaListas persistenciaListas = PersistenciaListas.getInstance();
             expediente = persistenciaListas.obtenExpediente(new Integer(id));
-            System.out.println(expediente.getNombre());
         } catch (SQLException ex) {
             Logger.getLogger(RecursoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

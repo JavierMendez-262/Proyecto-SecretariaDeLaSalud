@@ -20,10 +20,10 @@ import negocio.Usuario;
  */
 public class PersistenciaListas implements IPersistenciaListas {
 
-    private final String serverName = "SHOWTIME\\SQLEXPRESS";
+    private final String serverName = "DESKTOP-41MLEHM\\SQLEXPRESS";
     private final String databaseName = "BDLocal";
-    private final String user = "sa";
-    private final String password = "mypass";
+    private final String user = "DBOwner";
+    private final String password = "root";
 
     private static PersistenciaListas instance;
     private ConexionSQL conexion;

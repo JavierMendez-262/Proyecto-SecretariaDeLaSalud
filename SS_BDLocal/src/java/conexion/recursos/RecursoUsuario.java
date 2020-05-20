@@ -29,7 +29,6 @@ import negocio.Usuario;
 public class RecursoUsuario {
 
     private PersistenciaListas persistenciaListas;
-    private static final String SECRET_KEY = "secretaria";
 
     @Context
     private UriInfo context;
@@ -38,10 +37,10 @@ public class RecursoUsuario {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response validar(Usuario usuarioValidar) {
-        System.out.println("hola");
+        Usuario usuario = null;
         try {
             persistenciaListas = PersistenciaListas.getInstance();
-            Usuario usuario = persistenciaListas.obtenUsuario(usuarioValidar.getNickname());
+             usuario = persistenciaListas.obtenUsuario(usuarioValidar.getNickname());
             
             if (usuario == null) {
                 Response.status(Response.Status.UNAUTHORIZED).build();
@@ -50,8 +49,6 @@ public class RecursoUsuario {
             if (!usuario.getPassword().equals(usuarioValidar.getPassword())) {
                 Response.status(Response.Status.UNAUTHORIZED).build();
             }
-            
-            long tiempo = System.currentTimeMillis();
             
             String token = JWTokenHelper.getInstance().crearToken(usuario.getNickname(), usuario.getPassword());
             

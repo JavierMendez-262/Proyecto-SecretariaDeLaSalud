@@ -80,7 +80,7 @@ public class ListaUsuarios implements IListaUsuarios {
     public Usuario getUsuario(String nombre) throws SQLException {
         Usuario usuario = new Usuario();
 
-        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE Nickname = " + nombre);
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE Nickname = '" + nombre + "' ");
         rs.next();
         usuario.setId(rs.getInt(1));
         usuario.setNickname(rs.getString(2));

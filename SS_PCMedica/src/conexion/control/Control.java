@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import javax.websocket.DeploymentException;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import negocio.Usuario;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
@@ -65,9 +66,11 @@ public class Control {
             cea.sendMessage(id);
 
             System.out.println("Espere un momento... ");// Se espera a que la solicitud sea procesada.
+        } catch (NotAuthorizedException ex) {
+            System.out.println("No esta autorizado");
         } catch (InternalServerErrorException ex) {
             
-        }
+        } 
 
         return null;
     }

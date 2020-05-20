@@ -18,13 +18,13 @@ import javax.ws.rs.ext.Provider;
  *
  * @author javie
  */
+@Provider
 public class AUFilter implements ContainerRequestFilter {
 
     public static final String AUTHENTICATION_SERVICE_PATH = "login";
 
     @Override
-    public void filter(ContainerRequestContext requestContext)
-            throws IOException, WebApplicationException {
+    public void filter(ContainerRequestContext requestContext) throws IOException, WebApplicationException {
         String method = requestContext.getMethod();
         String path = requestContext.getUriInfo().getPath();
 
@@ -32,16 +32,19 @@ public class AUFilter implements ContainerRequestFilter {
 
         } else {
             String token = requestContext.getHeaderString(AUTHENTICATION_SERVICE_PATH);
-
             if (token != null) {
-                try {
-                    JWTokenHelper.getInstance().verificarToken(token);
-                } catch (JWTVerificationException exception) {
-                    if (exception instanceof TokenExpiredException) {
-                        throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).build());
-                    } else {
-                        throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).build());
+                if (!token.equals("")) {
+                    try {
+                        JWTokenHelper.getInstance().verificarToken(token);
+                    } catch (JWTVerificationException exception) {
+                        if (exception instanceof TokenExpiredException) {
+                            throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).build());
+                        } else {
+                            throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).build());
+                        }
                     }
+                } else {
+                    throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).build());
                 }
             } else {
                 throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).build());
