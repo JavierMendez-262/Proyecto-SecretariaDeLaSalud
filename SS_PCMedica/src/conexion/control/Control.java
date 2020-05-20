@@ -11,12 +11,14 @@ import java.net.URI;
 import negocio.Expediente;
 import org.glassfish.tyrus.client.ClientManager;
 import conexion.rest.RecursoExpediente_Client;
+import conexion.rest.RecursoUsuario_Client;
 import conexion.websockets.ClientEndpointAnnotated;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import javax.websocket.DeploymentException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import negocio.Usuario;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.tyrus.client.ClientProperties;
@@ -29,6 +31,7 @@ import org.glassfish.tyrus.client.ClientProperties;
 public class Control {
 
     private static final String URI = "wss://localhost:8443/SS_BDLocal/websockets/expediente";
+    private RecursoUsuario_Client ruc;
     private RecursoExpediente_Client rec;
     private ClientEndpointAnnotated cea;
     private Gson gson;
@@ -39,6 +42,7 @@ public class Control {
     public Control() {
         this.rec = new RecursoExpediente_Client();
         this.cea = new ClientEndpointAnnotated(this);
+        this.ruc = new RecursoUsuario_Client();
         gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
@@ -49,9 +53,10 @@ public class Control {
      * @param id Id del expediente a solicitar de la BD Local.
      * @return Expediente del Id solicitado.
      */
-    public Expediente getExpediente(String id) throws IOException, URISyntaxException, DeploymentException {
+    public Expediente getExpediente(String nickname, String password, String id) throws IOException, URISyntaxException, DeploymentException {
         try {
-            Expediente expediente = rec.getExpediente(id);// Se solicita el expediente al servidor a través de RESTful.
+            String token = ruc.validar(new Usuario(nickname, password, 0, false)).readEntity(String.class);
+            Expediente expediente = rec.getExpediente(token, id);// Se solicita el expediente al servidor a través de RESTful.
 
             System.out.println(gson.toJson(expediente));//En caso de que el servidor local lo posea se imprime no más para ver.
 

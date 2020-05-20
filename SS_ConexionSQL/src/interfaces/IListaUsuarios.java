@@ -31,6 +31,15 @@ public interface IListaUsuarios {
      * @throws SQLException Si hubo un problema con la consulta.
      */
     public Usuario getUsuario(int id) throws SQLException;
+    
+    /**
+     * Obtiene un usuario cuyo nombre concuerde con el nombre del parámetro.
+     *
+     * @param nombre nombre del usuario a obtener
+     * @return Usuario cuyo nombre concuerde con el nombre del parámetro
+     * @throws SQLException Si hubo un problema con la consulta.
+     */
+    public Usuario getUsuario(String nombre) throws SQLException;
 
     /**
      * Agrega un usuario a la base de datos.

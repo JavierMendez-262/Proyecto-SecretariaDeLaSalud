@@ -39,6 +39,7 @@ public class ListaExpedientes implements IListaExpedientes {
             expediente.setSexo(rs.getString(3).charAt(0));
             expediente.setEdad(rs.getInt(4));
             expediente.setDomicilio(rs.getString(5));
+            expediente.setIdPaciente(rs.getInt(6));
 
             expedientes.add(expediente);
         }
@@ -56,6 +57,7 @@ public class ListaExpedientes implements IListaExpedientes {
         expediente.setSexo(rs.getString(3).charAt(0));
         expediente.setEdad(rs.getInt(4));
         expediente.setDomicilio(rs.getString(5));
+        expediente.setIdPaciente(rs.getInt(6));
 
         return expediente;
     }
@@ -64,21 +66,23 @@ public class ListaExpedientes implements IListaExpedientes {
     public void addExpediente(Expediente expediente) throws SQLException {
         conexion.executeStatement("INSERT INTO " + tableName + " "
                 + "VALUES ("
-                + "'" + expediente.getId() + "', "
-                + "'" + expediente.getNombre() + "', "
-                + "'" + expediente.getSexo() + "', "
-                + "'" + expediente.getEdad() + "', "
-                + "'" + expediente.getDomicilio() + "');");
+                + " '" + expediente.getId() + "', "
+                + " '" + expediente.getNombre() + "', "
+                + " '" + expediente.getSexo() + "', "
+                + " '" + expediente.getEdad() + "', "
+                + " '" + expediente.getDomicilio() + "' "
+                + " " + expediente.getIdPaciente() + " );");
     }
 
     @Override
     public void updateExpediente(Expediente expediente) throws SQLException {
         conexion.executeStatement("UPDATE " + tableName + " "
                 + "SET "
-                + "Nombre = '" + expediente.getNombre()+ "' "
-                + "Sexo = '" + expediente.getSexo()+ "' "
-                + "Edad = " + expediente.getEdad()+ " "
-                + "Domicilio = '" + expediente.getDomicilio()+ "' "
+                + "Nombre = '" + expediente.getNombre() + "' "
+                + "Sexo = '" + expediente.getSexo() + "' "
+                + "Edad = " + expediente.getEdad() + " "
+                + "Domicilio = '" + expediente.getDomicilio() + "' "
+                + "idPaciente = " + expediente.getIdPaciente() + " "
                 + "WHERE ID = " + expediente.getId());
     }
 

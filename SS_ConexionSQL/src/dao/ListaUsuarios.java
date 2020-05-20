@@ -76,4 +76,18 @@ public class ListaUsuarios implements IListaUsuarios {
                 + "WHERE ID = " + usuario.getId());
     }
 
+    @Override
+    public Usuario getUsuario(String nombre) throws SQLException {
+        Usuario usuario = new Usuario();
+
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE Nickname = " + nombre);
+        rs.next();
+        usuario.setId(rs.getInt(1));
+        usuario.setNickname(rs.getString(2));
+        usuario.setPassword(rs.getString(3));
+        usuario.setEsMedico(rs.getInt(4) == 1);
+
+        return usuario;
+    }
+
 }

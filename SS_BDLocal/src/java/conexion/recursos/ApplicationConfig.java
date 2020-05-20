@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(conexion.recursos.RecursoExpediente.class);
+        resources.add(conexion.recursos.RecursoUsuario.class);
     }
     
 }

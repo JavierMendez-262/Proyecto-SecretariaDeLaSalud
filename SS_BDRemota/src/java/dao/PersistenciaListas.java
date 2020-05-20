@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import negocio.Expediente;
 import dao.ListaExpedientes;
+import negocio.Usuario;
 
 /**
  *
@@ -72,6 +73,21 @@ public class PersistenciaListas implements IPersistenciaListas {
     @Override
     public void agregaExpediente(Expediente Expediente) throws SQLException {
         listaExpedientes.addExpediente(Expediente);
+    }
+
+    @Override
+    public ArrayList<Usuario> obtenListaUsuarios() throws SQLException {
+        return listaUsuarios.getListaUsuarios();
+    }
+
+    @Override
+    public Usuario obtenUsuario(int id) throws SQLException {
+        return listaUsuarios.getUsuario(id);
+    }
+
+    @Override
+    public Usuario obtenUsuario(String nickname) throws SQLException {
+        return listaUsuarios.getUsuario(nickname);
     }
 
 }
