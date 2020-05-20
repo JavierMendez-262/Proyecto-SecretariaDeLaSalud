@@ -5,6 +5,8 @@
  */
 package conexion.recursos;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.PersistenciaListas;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import negocio.AccesoExpediente;
 
 /**
@@ -47,44 +50,28 @@ public class RecursoAccesoExpediente {
      */
     @GET
     @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<AccesoExpediente> getAccesoExpediente(@PathParam("id") String id) {
-        ArrayList<AccesoExpediente> acceso = null;
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getAccesoExpediente(@PathParam("id") String id) {
+        String json = null;
+        
         try {
             PersistenciaListas pl = PersistenciaListas.getInstance();
-            acceso = pl.obtenAccesoExpedientesPorIdPaciente(new Integer(id));
-            return acceso;
-        } catch (SQLException ex) {
-            Logger.getLogger(RecursoAccesoExpediente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RecursoAccesoExpediente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+            ArrayList<AccesoExpediente> acceso = pl.obtenAccesoExpedientesPorIdPaciente(new Integer(id));
+            
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            
+            json = gson.toJson(acceso);
 
-    /**
-     * Retrieves representation of an instance of
-     * conexion.recursos.RecursoAccesoExpediente
-     *
-     * @return an instance of negocio.AccesoExpediente
-     */
-    @GET
-    @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<AccesoExpediente> getAccesoExpedientePendiente(@PathParam("id") String id) {
-        ArrayList<AccesoExpediente> acceso = null;
-        try {
-            PersistenciaListas pl = PersistenciaListas.getInstance();
-            acceso = pl.obtenAccesoExpedientesPorIdPacientePendiente(new Integer(id));
-            return acceso;
         } catch (SQLException ex) {
-            //Logger.getLogger(RecursoAccesoExpediente.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("SQLException");
+            Logger.getLogger(RecursoAccesoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            //Logger.getLogger(RecursoAccesoExpediente.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("SQLException");
+            Logger.getLogger(RecursoAccesoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        if (json == null) {
+            return Response.status(404).build();
+        }
+        System.out.println("tdbn");
+        return Response.status(200).entity(json).build();
     }
 
     /**
@@ -95,16 +82,18 @@ public class RecursoAccesoExpediente {
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putAccesoExpediente(AccesoExpediente autorizar) {
+    public Response putAccesoExpediente(AccesoExpediente autorizar) {
         try {
             PersistenciaListas pl = PersistenciaListas.getInstance();
             AccesoExpediente ae = pl.obtenAccesoExpediente(autorizar.getIdExpediente(), autorizar.getIdMedico());
             ae.setAutorizacion(true);
             pl.actualizarAccesoExpediente(ae);
+            return Response.status(200).build();
         } catch (SQLException ex) {
             Logger.getLogger(RecursoAccesoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RecursoAccesoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return Response.status(404).build();
     }
 }

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import negocio.Expediente;
 import dao.ListaExpedientes;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import negocio.AccesoExpediente;
 import negocio.Usuario;
 
@@ -67,8 +69,13 @@ public class PersistenciaListas implements IPersistenciaListas {
     }
 
     @Override
-    public Expediente obtenExpediente(int id) throws SQLException {
-        return listaExpedientes.getExpediente(id);
+    public Expediente obtenExpediente(int id) {
+        try {
+            return listaExpedientes.getExpediente(id);
+        } catch (SQLException ex) {
+            return null;
+        }
+        
     }
 
     @Override
@@ -127,7 +134,16 @@ public class PersistenciaListas implements IPersistenciaListas {
     }
 
     @Override
-    public AccesoExpediente obtenAccesoExpediente(int idExpediente, int idMedico) throws SQLException {
-        return listaAccesoExpedientes.getAccesoExpediente(idExpediente, idMedico);
+    public AccesoExpediente obtenAccesoExpediente(int idExpediente, int idMedico) {
+        try {
+            return listaAccesoExpedientes.getAccesoExpediente(idExpediente, idMedico);
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public void agregueAccesoExpediente(AccesoExpediente ae) throws SQLException {
+        listaAccesoExpedientes.addAccesoExpediente(ae);
     }
 }

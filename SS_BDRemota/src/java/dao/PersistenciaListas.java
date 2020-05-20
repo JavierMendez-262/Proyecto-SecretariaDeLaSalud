@@ -130,4 +130,9 @@ public class PersistenciaListas implements IPersistenciaListas {
     public AccesoExpediente obtenAccesoExpediente(int idExpediente, int idMedico) throws SQLException {
         return listaAccesoExpedientes.getAccesoExpediente(idExpediente, idMedico);
     }
+    
+    @Override
+    public void agregueAccesoExpediente(AccesoExpediente ae) throws SQLException {
+        listaAccesoExpedientes.addAccesoExpediente(ae);
+    }
 }

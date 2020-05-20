@@ -70,8 +70,8 @@ public class ListaExpedientes implements IListaExpedientes {
                 + " '" + expediente.getNombre() + "', "
                 + " '" + expediente.getSexo() + "', "
                 + " '" + expediente.getEdad() + "', "
-                + " '" + expediente.getDomicilio() + "' "
-                + " " + expediente.getIdPaciente() + " );");
+                + " '" + expediente.getDomicilio() + "', "
+                + " '" + expediente.getIdPaciente() + "' );");
     }
 
     @Override

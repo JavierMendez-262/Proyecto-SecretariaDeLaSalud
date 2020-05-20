@@ -155,8 +155,9 @@ public class ListaAccesoExpedientes implements IListaAccesoExpediente {
     public void addAccesoExpediente(AccesoExpediente accesoExpediente) throws SQLException {
         conexion.executeStatement("INSERT INTO " + tableName + " "
                 + "VALUES ("
-                + "'" + accesoExpediente.getIdExpediente() + "', "
-                + "'" + accesoExpediente.getIdMedico() + "');");
+                + " " + accesoExpediente.getIdExpediente() + ", "
+                + " " + accesoExpediente.getIdMedico() + ", "
+                + " " + (accesoExpediente.estaAutorizado() == true ? 1 : 0) + " );");
     }
 
     @Override

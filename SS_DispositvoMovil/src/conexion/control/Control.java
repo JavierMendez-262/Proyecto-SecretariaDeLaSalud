@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 import conexion.rest.RecursoAccesoExpediente_Client;
 import conexion.rest.RecursoUsuario_Client;
 import java.util.ArrayList;
-import java.util.Collections;
 import negocio.AccesoExpediente;
 import negocio.Usuario;
 
@@ -21,8 +20,6 @@ import negocio.Usuario;
  */
 public class Control {
 
-    private String nickname;
-    private String password;
     private String token;
     private RecursoAccesoExpediente_Client raec;
     private RecursoUsuario_Client ruc;
@@ -46,22 +43,15 @@ public class Control {
      * @return Acceso a expedientes solicitado
      */
     public ArrayList<AccesoExpediente> getAccesoExpedientes(String id) {
-        String token = ruc.validar(new Usuario(nickname, password, 0, false)).readEntity(String.class);
         ArrayList<AccesoExpediente> listaAccesoExpediente = new ArrayList<>();
-        Collections.addAll(listaAccesoExpediente, raec.getAccesoExpediente(AccesoExpediente[].class, id, token));
-        return listaAccesoExpediente;
-    }
-
-    /**
-     * Método que solicita los accesos a expedientes pendientes del paciente
-     * cuyo id concuerde con el id del parámetro.
-     *
-     * @param id Id del paciente
-     * @return Acceso a expedientes pendientes solicitado
-     */
-    public ArrayList<AccesoExpediente> getAccesoExpedientesPendientes(String id) {
-        ArrayList<AccesoExpediente> listaAccesoExpediente = new ArrayList<>();
-        Collections.addAll(listaAccesoExpediente, raec.getAccesoExpedientePendiente(AccesoExpediente[].class, id, token));
+                
+        Gson gson = new Gson();
+        AccesoExpediente[] arregloAccesoExpediente = gson.fromJson(raec.getAccesoExpediente(id, token), AccesoExpediente[].class);
+        
+        for (AccesoExpediente accesoExpediente : arregloAccesoExpediente) {
+            listaAccesoExpediente.add(accesoExpediente);
+        }
+        
         return listaAccesoExpediente;
     }
 

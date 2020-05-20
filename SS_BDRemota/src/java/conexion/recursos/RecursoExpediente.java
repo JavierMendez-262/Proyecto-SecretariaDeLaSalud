@@ -50,7 +50,7 @@ public class RecursoExpediente {
             PersistenciaListas persistenciaListas = PersistenciaListas.getInstance();
             expediente = persistenciaListas.obtenExpediente(new Integer(id));
         } catch (SQLException ex) {
-            return Response.status(500).build();
+            return Response.status(404).build();
         } catch (ClassNotFoundException ex) {
             return Response.status(500).build();
         }

@@ -55,11 +55,7 @@ public class Control {
      */
     public void buscaExpediente(String expedienteId, String sessionId) {
         Expediente expediente = null;
-        try {
-            expediente = persistenciaListas.obtenExpediente(new Integer(expedienteId)); // Se obtiene de la lista de expedientes el expediente con el Id solicitado.
-        } catch (SQLException ex) {
-            Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        expediente = persistenciaListas.obtenExpediente(new Integer(expedienteId)); // Se obtiene de la lista de expedientes el expediente con el Id solicitado.
         if (expediente == null) {// Si no lo encuentra, se le solicita al servidor remoto.
             System.out.println("No se encontró... Solicitando al server remoto...");
 
@@ -76,8 +72,7 @@ public class Control {
                 Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        String expedienteGson = gson.toJson(expediente);
-        enviaExpediente(expedienteGson, sessionId);
+        enviaExpediente("El expediente ha sido guardo en la base de datos!", sessionId);
     }
 
     /**

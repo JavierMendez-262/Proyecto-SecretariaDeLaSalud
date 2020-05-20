@@ -23,7 +23,7 @@ public class Main {
         Control control = new Control();
 
         try {
-            control.getExpediente("asd", "kike", "1");
+            control.getExpediente("MendozaHiguera", "kike", "4", "1");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (URISyntaxException ex) {

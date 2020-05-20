@@ -139,4 +139,12 @@ public interface IPersistenciaListas {
      * @throws SQLException Cuando haya algun problema en la base de datos.
      */
     public AccesoExpediente obtenAccesoExpediente(int idExpediente, int idMedico) throws SQLException;
+    
+    /**
+     * Agrega una solicitud de acceso a un expediente a la base de datos.
+     * 
+     * @param accesoExpediente Solicitud de acceso al expediente.
+     * @throws SQLException Cuando haya algun problema en la base de datos.
+     */
+    public void agregueAccesoExpediente(AccesoExpediente accesoExpediente) throws SQLException;
 }

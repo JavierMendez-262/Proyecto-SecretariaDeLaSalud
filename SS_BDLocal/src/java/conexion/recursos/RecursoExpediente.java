@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import negocio.Expediente;
 import dao.PersistenciaListas;
+import negocio.AccesoExpediente;
 
 /**
  * REST Web Service
@@ -44,22 +45,33 @@ public class RecursoExpediente {
      * @return an instance of objetosnegocio.Expediente
      */
     @GET
-    @Path("{id}")
+    @Path("{idExpediente}/{idMedico}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getExpediente(@PathParam("id") String id) {
+    public Response getExpediente(@PathParam("idExpediente") String idExpediente, @PathParam("idMedico") String idMedico) {
         Expediente expediente = null;
         try {
             PersistenciaListas persistenciaListas = PersistenciaListas.getInstance();
-            expediente = persistenciaListas.obtenExpediente(new Integer(id));
+            
+            if (persistenciaListas.obtenExpediente(new Integer(idExpediente)) == null) {
+                return Response.status(Response.Status.NOT_FOUND).entity(expediente).build();
+            }
+            
+            if (persistenciaListas.obtenAccesoExpediente(new Integer(idExpediente), new Integer(idMedico)) == null) {
+                persistenciaListas.agregueAccesoExpediente(new AccesoExpediente(new Integer(idExpediente), new Integer(idMedico), false));
+                return Response.status(Response.Status.NOT_FOUND).entity(expediente).build();
+            } else if (persistenciaListas.obtenAccesoExpediente(new Integer(idExpediente), new Integer(idMedico)).estaAutorizado()) {
+                expediente = persistenciaListas.obtenExpediente(new Integer(idExpediente));
+                return Response.status(Response.Status.ACCEPTED).entity(expediente).build();
+            } else {
+                return Response.status(Response.Status.UNAUTHORIZED).entity(expediente).build();
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(RecursoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RecursoExpediente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (expediente == null) {
-            return Response.status(404).build();
-        }
-        return Response.status(200).entity(expediente).build();
+        return Response.status(500).build();
     }
 
     /**

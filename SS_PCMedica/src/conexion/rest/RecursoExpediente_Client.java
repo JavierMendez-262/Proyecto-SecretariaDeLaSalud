@@ -52,9 +52,9 @@ public class RecursoExpediente_Client {
      * @throws ClientErrorException cuando se produzca un problema con la
      * solicitud.
      */
-    public Expediente getExpediente(String token, String id) throws ClientErrorException, NotFoundException {
+    public Expediente getExpediente(String token, String idExpediente, String idMedico) throws ClientErrorException, NotFoundException {
         WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
+        resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{idExpediente, idMedico}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).header("login", token).get(Expediente.class);
     }
 

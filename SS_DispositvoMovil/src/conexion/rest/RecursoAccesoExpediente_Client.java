@@ -8,6 +8,7 @@ package conexion.rest;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import negocio.AccesoExpediente;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.tyrus.client.ClientProperties;
@@ -50,16 +51,10 @@ public class RecursoAccesoExpediente_Client {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).header("login", token).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
 
-    public <T> T getAccesoExpediente(Class<T> responseType, String id, String token) throws ClientErrorException {
+    public String getAccesoExpediente(String id, String token) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).header("login", token).get(responseType);
-    }
-
-    public <T> T getAccesoExpedientePendiente(Class<T> responseType, String id, String token) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).header("login", token).get(responseType);
+        return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).header("login", token).get(String.class);
     }
 
     public void close() {

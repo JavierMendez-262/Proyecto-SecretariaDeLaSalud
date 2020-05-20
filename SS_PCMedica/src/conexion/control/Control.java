@@ -54,20 +54,20 @@ public class Control {
      * @param id Id del expediente a solicitar de la BD Local.
      * @return Expediente del Id solicitado.
      */
-    public Expediente getExpediente(String nickname, String password, String id) throws IOException, URISyntaxException, DeploymentException {
+    public Expediente getExpediente(String nickname, String password, String idMedico, String idExpediente) throws IOException, URISyntaxException, DeploymentException {
         try {
             String token = ruc.validar(new Usuario(nickname, password, 0, false)).readEntity(String.class);
-            Expediente expediente = rec.getExpediente(token, id);// Se solicita el expediente al servidor a través de RESTful.
+            Expediente expediente = rec.getExpediente(token, idExpediente, idMedico);// Se solicita el expediente al servidor a través de RESTful.
 
             System.out.println(gson.toJson(expediente));//En caso de que el servidor local lo posea se imprime no más para ver.
 
+        } catch (NotAuthorizedException ex) {
+            System.out.println("No Esta Autorizado");
         } catch (NotFoundException ex) {// Si no lo encuentra, solicitalo a través de WebSockets al servidor.
             prepareClient().connectToServer(cea, new URI(URI));
-            cea.sendMessage(id);
+            cea.sendMessage(idExpediente);
 
-            System.out.println("Espere un momento... ");// Se espera a que la solicitud sea procesada.
-        } catch (NotAuthorizedException ex) {
-            System.out.println("No esta autorizado");
+            System.out.println("Error: Expediente no encontrado en la Base de Datos Local...\nSolicitando al Servidor Remoto espere un momento... ");// Se espera a que la solicitud sea procesada.
         } catch (InternalServerErrorException ex) {
             
         } 
@@ -80,13 +80,11 @@ public class Control {
      *
      * @param expedienteGson Expediente en formato Json solicitado
      */
-    public void receivedExpedienteWS(String expedienteGson) {
-        if (!expedienteGson.equals("null")) {
-            Expediente expediente = gson.fromJson(expedienteGson, Expediente.class);
-
-            System.out.println(expedienteGson);
+    public void receivedExpedienteWS(String message) {
+        if (!message.equals("null")) {
+            System.out.println(message);
         } else {
-            System.out.println("Error: Expediente no encontrado.");
+            System.out.println("Error: Expediente no inexistente.");
         }
     }
 

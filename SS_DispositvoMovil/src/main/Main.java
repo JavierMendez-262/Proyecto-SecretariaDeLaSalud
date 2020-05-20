@@ -19,9 +19,5 @@ public class Main {
         for (AccesoExpediente accesoExpediente : ctrl.getAccesoExpedientes("1")) {
             System.out.println(accesoExpediente.getIdExpediente() + " " + accesoExpediente.getIdMedico() + " " + accesoExpediente.estaAutorizado());
         }
-        ctrl.autorizarAccesoExpediente("1", "4");
-        for (AccesoExpediente accesoExpediente : ctrl.getAccesoExpedientes("1")) {
-            System.out.println(accesoExpediente.getIdExpediente() + " " + accesoExpediente.getIdMedico() + " " + accesoExpediente.estaAutorizado());
-        }
     }
 }
