@@ -62,5 +62,4 @@ public class ConexionSQL {
         Statement st = con.createStatement();
         st.execute(statement);
     }
-
 }

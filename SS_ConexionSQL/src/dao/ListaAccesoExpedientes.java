@@ -27,11 +27,11 @@ public class ListaAccesoExpedientes implements IListaAccesoExpediente {
     }
 
     @Override
-    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedico() throws SQLException {
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedico(int idMedico) throws SQLException {
         ArrayList<AccesoExpediente> accesoExpedientes = new ArrayList<>();
         AccesoExpediente accesoExpediente = new AccesoExpediente();
 
-        rs = conexion.executeQuery("SELECT * FROM " + tableName);
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE idMedico = " + idMedico);
         while (rs.next()) {
             accesoExpediente.setIdExpediente(rs.getInt(1));
             accesoExpediente.setIdMedico(rs.getInt(2));
@@ -43,11 +43,11 @@ public class ListaAccesoExpedientes implements IListaAccesoExpediente {
     }
 
     @Override
-    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedicoAutorizado() throws SQLException {
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedicoAutorizado(int idMedico) throws SQLException {
         ArrayList<AccesoExpediente> accesoExpedientes = new ArrayList<>();
         AccesoExpediente accesoExpediente = new AccesoExpediente();
 
-        rs = conexion.executeQuery("SELECT * FROM " + tableName);
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE idMedico = " + idMedico);
         while (rs.next()) {
             if (rs.getInt(3) == 0) {
                 continue;
@@ -63,11 +63,67 @@ public class ListaAccesoExpedientes implements IListaAccesoExpediente {
     }
 
     @Override
-    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedicoPendiente() throws SQLException {
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedicoPendiente(int idMedico) throws SQLException {
         ArrayList<AccesoExpediente> accesoExpedientes = new ArrayList<>();
         AccesoExpediente accesoExpediente = new AccesoExpediente();
 
-        rs = conexion.executeQuery("SELECT * FROM " + tableName);
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE idMedico = " + idMedico);
+        while (rs.next()) {
+            if (rs.getInt(3) == 1) {
+                continue;
+            } else {
+                accesoExpediente.setIdExpediente(rs.getInt(1));
+                accesoExpediente.setIdMedico(rs.getInt(2));
+                accesoExpediente.setAutorizacion(rs.getInt(3) == 1);
+
+                accesoExpedientes.add(accesoExpediente);
+            }
+        }
+        return accesoExpedientes;
+    }
+
+    @Override
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdPaciente(int idPaciente) throws SQLException {
+        ArrayList<AccesoExpediente> accesoExpedientes = new ArrayList<>();
+        AccesoExpediente accesoExpediente = new AccesoExpediente();
+
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE idExpediente = " + idPaciente);
+        while (rs.next()) {
+            accesoExpediente.setIdExpediente(rs.getInt(1));
+            accesoExpediente.setIdMedico(rs.getInt(2));
+            accesoExpediente.setAutorizacion(rs.getInt(3) == 1);
+
+            accesoExpedientes.add(accesoExpediente);
+        }
+        return accesoExpedientes;
+    }
+
+    @Override
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdPacienteAutorizado(int idPaciente) throws SQLException {
+        ArrayList<AccesoExpediente> accesoExpedientes = new ArrayList<>();
+        AccesoExpediente accesoExpediente = new AccesoExpediente();
+
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE idExpediente = " + idPaciente);
+        while (rs.next()) {
+            if (rs.getInt(3) == 0) {
+                continue;
+            } else {
+                accesoExpediente.setIdExpediente(rs.getInt(1));
+                accesoExpediente.setIdMedico(rs.getInt(2));
+                accesoExpediente.setAutorizacion(rs.getInt(3) == 1);
+
+                accesoExpedientes.add(accesoExpediente);
+            }
+        }
+        return accesoExpedientes;
+    }
+
+    @Override
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdPacientePendiente(int idPaciente) throws SQLException {
+        ArrayList<AccesoExpediente> accesoExpedientes = new ArrayList<>();
+        AccesoExpediente accesoExpediente = new AccesoExpediente();
+
+        rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE idExpediente = " + idPaciente);
         while (rs.next()) {
             if (rs.getInt(3) == 1) {
                 continue;
@@ -85,7 +141,7 @@ public class ListaAccesoExpedientes implements IListaAccesoExpediente {
     @Override
     public AccesoExpediente getAccesoExpediente(int idExpediente, int idMedico) throws SQLException {
         AccesoExpediente accesoExpediente = new AccesoExpediente();
-        
+
         rs = conexion.executeQuery("SELECT * FROM " + tableName + " WHERE IdExpediente = " + idExpediente + " and IdMedico = " + idMedico);
         rs.next();
         accesoExpediente.setIdExpediente(rs.getInt(1));

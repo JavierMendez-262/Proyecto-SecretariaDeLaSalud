@@ -1,5 +1,7 @@
 /*
  * Main.java
+ * 
+ * Documentado en Mayo 19, 2020. 23:59.
  */
 package main;
 
@@ -21,7 +23,7 @@ public class Main {
         Control control = new Control();
 
         try {
-            control.getExpediente("MendezoHiguera", "kike", "1");
+            control.getExpediente("MendozaHiguera", "kike", "1");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (URISyntaxException ex) {

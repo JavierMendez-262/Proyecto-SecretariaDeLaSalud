@@ -30,8 +30,8 @@ public class RecursoExpediente_Client {
      * Constructor que inicializa las variables de la clase.
      */
     public RecursoExpediente_Client() {        
-        System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "C:/certs/salud/keystore.jks");
-        System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "C:/certs/salud/keystore.jks");
+        System.getProperties().put(SSLContextConfigurator.KEY_STORE_FILE, "D:/certs/salud/keystore.jks");
+        System.getProperties().put(SSLContextConfigurator.TRUST_STORE_FILE, "D:/certs/salud/keystore.jks");
         System.getProperties().put(SSLContextConfigurator.KEY_STORE_PASSWORD, "secretaria");
         System.getProperties().put(SSLContextConfigurator.TRUST_STORE_PASSWORD, "secretaria");        
         

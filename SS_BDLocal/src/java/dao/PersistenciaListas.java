@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import negocio.Expediente;
 import dao.ListaExpedientes;
+import negocio.AccesoExpediente;
 import negocio.Usuario;
 
 /**
@@ -19,10 +20,10 @@ import negocio.Usuario;
  */
 public class PersistenciaListas implements IPersistenciaListas {
 
-    private final String serverName = "DESKTOP-41MLEHM\\SQLEXPRESS";
+    private final String serverName = "SHOWTIME\\SQLEXPRESS";
     private final String databaseName = "BDLocal";
-    private final String user = "DBOwner";
-    private final String password = "root";
+    private final String user = "sa";
+    private final String password = "mypass";
 
     private static PersistenciaListas instance;
     private ConexionSQL conexion;
@@ -90,4 +91,43 @@ public class PersistenciaListas implements IPersistenciaListas {
         return listaUsuarios.getUsuario(nickname);
     }
 
+    @Override
+    public ArrayList<AccesoExpediente> obtenAccesoExpedientesPorIdMedico(int id) throws SQLException {
+        return listaAccesoExpedientes.getAccesoExpedientesPorIdMedico(id);
+    }
+
+    @Override
+    public ArrayList<AccesoExpediente> obtenAccesoExpedientesPorIdMedicoAutorizado(int id) throws SQLException {
+        return listaAccesoExpedientes.getAccesoExpedientesPorIdMedicoAutorizado(id);
+    }
+
+    @Override
+    public ArrayList<AccesoExpediente> obtenAccesoExpedientesPorIdMedicoPendiente(int id) throws SQLException {
+        return listaAccesoExpedientes.getAccesoExpedientesPorIdMedicoPendiente(id);
+    }
+
+    @Override
+    public ArrayList<AccesoExpediente> obtenAccesoExpedientesPorIdPaciente(int id) throws SQLException {
+        return listaAccesoExpedientes.getAccesoExpedientesPorIdPaciente(id);
+    }
+
+    @Override
+    public ArrayList<AccesoExpediente> obtenAccesoExpedientesPorIdPacienteAutorizado(int id) throws SQLException {
+        return listaAccesoExpedientes.getAccesoExpedientesPorIdPacienteAutorizado(id);
+    }
+
+    @Override
+    public ArrayList<AccesoExpediente> obtenAccesoExpedientesPorIdPacientePendiente(int id) throws SQLException {
+        return listaAccesoExpedientes.getAccesoExpedientesPorIdPacientePendiente(id);
+    }
+
+    @Override
+    public void actualizarAccesoExpediente(AccesoExpediente acceso) throws SQLException {
+        listaAccesoExpedientes.updateAccesoExpediente(acceso);
+    }
+
+    @Override
+    public AccesoExpediente obtenAccesoExpediente(int idExpediente, int idMedico) throws SQLException {
+        return listaAccesoExpedientes.getAccesoExpediente(idExpediente, idMedico);
+    }
 }

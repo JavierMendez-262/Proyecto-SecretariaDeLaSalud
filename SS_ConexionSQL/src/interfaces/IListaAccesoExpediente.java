@@ -22,7 +22,7 @@ public interface IListaAccesoExpediente {
      * @return Lista de acceso a expedientes solicitados
      * @throws SQLException Si hubo un problema con la consulta.
      */
-    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedico() throws SQLException;
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedico(int idMedico) throws SQLException;
 
     /**
      * Obtiene la lista de acceso a expedientes autorizados solicitados por el
@@ -32,7 +32,7 @@ public interface IListaAccesoExpediente {
      * médico.
      * @throws SQLException Si hubo un problema con la consulta.
      */
-    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedicoAutorizado() throws SQLException;
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedicoAutorizado(int idMedico) throws SQLException;
 
     /**
      * Obtiene la lista de acceso a expedientes con autorización pediente
@@ -42,7 +42,36 @@ public interface IListaAccesoExpediente {
      * solicitados por el médico.
      * @throws SQLException Si hubo un problema con la consulta.
      */
-    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedicoPendiente() throws SQLException;
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdMedicoPendiente(int idMedico) throws SQLException;
+
+    /**
+     * Obtiene la lista de acceso a expedientes solicitados por el paciente cuyo
+     * id concuerde con el del parámetro.
+     *
+     * @return Lista de acceso a expedientes solicitados
+     * @throws SQLException Si hubo un problema con la consulta.
+     */
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdPaciente(int idPaciente) throws SQLException;
+
+    /**
+     * Obtiene la lista de acceso a expedientes autorizados solicitados por el
+     * paciente cuyo id concuerde con el del parámetro.
+     *
+     * @return Lista de acceso a expedientes autorizados solicitados por el
+     * médico.
+     * @throws SQLException Si hubo un problema con la consulta.
+     */
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdPacienteAutorizado(int idPaciente) throws SQLException;
+
+    /**
+     * Obtiene la lista de acceso a expedientes con autorización pediente
+     * solicitados por el paciente cuyo id concuerde con el del parámetro.
+     *
+     * @return Lista de acceso a expedientes con autorización pediente
+     * solicitados por el médico.
+     * @throws SQLException Si hubo un problema con la consulta.
+     */
+    public ArrayList<AccesoExpediente> getAccesoExpedientesPorIdPacientePendiente(int idPaciente) throws SQLException;
 
     /**
      * Obtiene un acceso a expediente mediente el id del expediente al que el
@@ -62,7 +91,7 @@ public interface IListaAccesoExpediente {
      * @throws SQLException Si hubo un problema con la consulta.
      */
     public void addAccesoExpediente(AccesoExpediente accesoExpediente) throws SQLException;
-    
+
     /**
      * Actualiza un acceso a expediente en la base de datos.
      *
@@ -70,5 +99,4 @@ public interface IListaAccesoExpediente {
      * @throws SQLException Si hubo un problema con la declaracion.
      */
     public void updateAccesoExpediente(AccesoExpediente accesoExpediente) throws SQLException;
-
 }
