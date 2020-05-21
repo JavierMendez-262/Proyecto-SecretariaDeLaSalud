@@ -1,0 +1,78 @@
+USE [BDLocal]
+GO
+/****** Object:  Table [dbo].[AccesoExpediente]    Script Date: 5/21/2020 12:05:38 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AccesoExpediente](
+	[IdExpediente] [int] NOT NULL,
+	[IdMedico] [int] NOT NULL,
+	[estaAutorizado] [bit] NOT NULL,
+ CONSTRAINT [PK_AccesoExpediente] PRIMARY KEY CLUSTERED 
+(
+	[IdExpediente] ASC,
+	[IdMedico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Expediente]    Script Date: 5/21/2020 12:05:38 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Expediente](
+	[ID] [int] NOT NULL,
+	[Nombre] [nvarchar](50) NULL,
+	[Sexo] [char](1) NULL,
+	[Edad] [int] NULL,
+	[Domicilio] [nvarchar](70) NULL,
+	[IDPaciente] [int] NOT NULL,
+ CONSTRAINT [PK_Expediente] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Usuario]    Script Date: 5/21/2020 12:05:38 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Usuario](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nickname] [nvarchar](20) NOT NULL,
+	[Password] [nvarchar](20) NOT NULL,
+	[esMedico] [bit] NOT NULL,
+ CONSTRAINT [PK_Usuario] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Usuario] ON 
+GO
+INSERT [dbo].[Usuario] ([Id], [Nickname], [Password], [esMedico]) VALUES (1, N'YerallFelipe', N'YeFel', 0)
+GO
+INSERT [dbo].[Usuario] ([Id], [Nickname], [Password], [esMedico]) VALUES (2, N'DahirValenzuela', N'drvv', 0)
+GO
+INSERT [dbo].[Usuario] ([Id], [Nickname], [Password], [esMedico]) VALUES (3, N'JavierMendez', N'1235', 0)
+GO
+INSERT [dbo].[Usuario] ([Id], [Nickname], [Password], [esMedico]) VALUES (4, N'MendozaHiguera', N'kike', 1)
+GO
+INSERT [dbo].[Usuario] ([Id], [Nickname], [Password], [esMedico]) VALUES (5, N'JoseCortes', N'jcrts', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Usuario] OFF
+GO
+ALTER TABLE [dbo].[AccesoExpediente] ADD  CONSTRAINT [DF_AccesoExpediente_estaAutorizado]  DEFAULT ((0)) FOR [estaAutorizado]
+GO
+ALTER TABLE [dbo].[AccesoExpediente]  WITH CHECK ADD  CONSTRAINT [FK_AccesoExpediente_Expediente1] FOREIGN KEY([IdExpediente])
+REFERENCES [dbo].[Expediente] ([ID])
+GO
+ALTER TABLE [dbo].[AccesoExpediente] CHECK CONSTRAINT [FK_AccesoExpediente_Expediente1]
+GO
+ALTER TABLE [dbo].[AccesoExpediente]  WITH CHECK ADD  CONSTRAINT [FK_AccesoExpediente_Usuario1] FOREIGN KEY([IdMedico])
+REFERENCES [dbo].[Usuario] ([Id])
+GO
+ALTER TABLE [dbo].[AccesoExpediente] CHECK CONSTRAINT [FK_AccesoExpediente_Usuario1]
+GO

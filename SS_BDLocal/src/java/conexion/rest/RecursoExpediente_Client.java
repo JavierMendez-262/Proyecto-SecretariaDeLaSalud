@@ -11,6 +11,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import negocio.Expediente;
+import negocio.Usuario;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.tyrus.client.ClientProperties;
@@ -53,9 +54,11 @@ public class RecursoExpediente_Client {
      * solicitud.
      */
     public Expediente getExpediente(String id) throws ClientErrorException, NotFoundException {
+        RecursoUsuario_Client ruc = new RecursoUsuario_Client();
+        String token = ruc.validar(new Usuario("admin", "admin", 0, false)).readEntity(String.class);
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(Expediente.class);
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).header("login", token).get(Expediente.class);
     }
     
     /**
@@ -67,6 +70,8 @@ public class RecursoExpediente_Client {
      * solicitud.
      */
     public Response putExpediente(Expediente expediente) throws ClientErrorException {
+        RecursoUsuario_Client ruc = new RecursoUsuario_Client();
+        String token = ruc.validar(new Usuario("admin", "admin", 0, false)).readEntity(String.class);
         return webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(expediente, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 

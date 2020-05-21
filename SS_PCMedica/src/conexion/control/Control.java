@@ -16,6 +16,7 @@ import conexion.websockets.ClientEndpointAnnotated;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import javax.websocket.DeploymentException;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
@@ -36,15 +37,17 @@ public class Control {
     private RecursoExpediente_Client rec;
     private ClientEndpointAnnotated cea;
     private Gson gson;
+    private String token;
 
     /**
      * Constructor que inicializa las variables de la clase.
      */
-    public Control() {
+    public Control(String nickname, String password) {
         this.rec = new RecursoExpediente_Client();
         this.cea = new ClientEndpointAnnotated(this);
         this.ruc = new RecursoUsuario_Client();
         gson = new GsonBuilder().setPrettyPrinting().create();
+        token = ruc.validar(new Usuario(nickname, password, 0, false)).readEntity(String.class);
     }
 
     /**
@@ -54,9 +57,8 @@ public class Control {
      * @param id Id del expediente a solicitar de la BD Local.
      * @return Expediente del Id solicitado.
      */
-    public Expediente getExpediente(String nickname, String password, String idMedico, String idExpediente) throws IOException, URISyntaxException, DeploymentException {
+    public Expediente getExpediente(String idMedico, String idExpediente) throws IOException, URISyntaxException, DeploymentException {
         try {
-            String token = ruc.validar(new Usuario(nickname, password, 0, false)).readEntity(String.class);
             Expediente expediente = rec.getExpediente(token, idExpediente, idMedico);// Se solicita el expediente al servidor a través de RESTful.
 
             System.out.println(gson.toJson(expediente));//En caso de que el servidor local lo posea se imprime no más para ver.
@@ -68,9 +70,11 @@ public class Control {
             cea.sendMessage(idExpediente);
 
             System.out.println("Error: Expediente no encontrado en la Base de Datos Local...\nSolicitando al Servidor Remoto espere un momento... ");// Se espera a que la solicitud sea procesada.
+        } catch (BadRequestException ex) {
+
         } catch (InternalServerErrorException ex) {
-            
-        } 
+
+        }
 
         return null;
     }

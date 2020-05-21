@@ -29,7 +29,9 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(conexion.filtro.AUFilter.class);
         resources.add(conexion.recursos.RecursoExpediente.class);
+        resources.add(conexion.recursos.RecursoUsuario.class);
     }
     
 }

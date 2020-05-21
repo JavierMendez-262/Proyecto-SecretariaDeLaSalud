@@ -70,7 +70,6 @@ public class RecursoAccesoExpediente {
         if (json == null) {
             return Response.status(404).build();
         }
-        System.out.println("tdbn");
         return Response.status(200).entity(json).build();
     }
 

@@ -15,9 +15,10 @@ import negocio.AccesoExpediente;
 public class Main {
     
     public static void main(String[] args) {
-        Control ctrl = new Control("MendozaHiguera", "kike");
+        Control ctrl = new Control("DahirValenzuela", "drvv");
         for (AccesoExpediente accesoExpediente : ctrl.getAccesoExpedientes("1")) {
             System.out.println(accesoExpediente.getIdExpediente() + " " + accesoExpediente.getIdMedico() + " " + accesoExpediente.estaAutorizado());
         }
+        ctrl.autorizarAccesoExpediente("1", "4");
     }
 }

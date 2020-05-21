@@ -58,7 +58,7 @@ public class RecursoExpediente {
             
             if (persistenciaListas.obtenAccesoExpediente(new Integer(idExpediente), new Integer(idMedico)) == null) {
                 persistenciaListas.agregueAccesoExpediente(new AccesoExpediente(new Integer(idExpediente), new Integer(idMedico), false));
-                return Response.status(Response.Status.NOT_FOUND).entity(expediente).build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(expediente).build();
             } else if (persistenciaListas.obtenAccesoExpediente(new Integer(idExpediente), new Integer(idMedico)).estaAutorizado()) {
                 expediente = persistenciaListas.obtenExpediente(new Integer(idExpediente));
                 return Response.status(Response.Status.ACCEPTED).entity(expediente).build();
